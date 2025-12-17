@@ -1,0 +1,113 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model User {
+  id                 String     @id @default(uuid())
+  name               String
+  email              String     @unique
+  password           String
+  role               UserRole   @default(USER)
+  profileImage       String?
+  isDeleted          Boolean    @default(false)
+  status             UserStatus @default(ACTIVE)
+  needPasswordChange Boolean    @default(true)
+
+  properties Property[]
+  reviews    Review[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+
+model Property {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  price       Float
+
+  images           String[]
+  thumbNailImage   String
+
+  type        PropertyType
+  propertyFor PropertyFor
+
+  bedrooms   Int
+  bathrooms  Int
+  squareFoot Int?
+  buildYear  String?
+
+  city            String
+  country         String
+  propertyAddress String
+
+  isFeatured Boolean @default(false)
+  status     PropertyApprovalStatus @default(PENDING)
+
+  userId String
+  user   User @relation(fields: [userId], references: [id])
+
+  reviews Review[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+
+model Review {
+  id         String  @id @default(uuid())
+  rating     Int?
+  comment    String
+
+  userId     String
+  user       User    @relation(fields: [userId], references: [id])
+
+  propertyId String
+  property   Property @relation(fields: [propertyId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+
+enum UserRole {
+  SUPER_ADMIN
+  ADMIN
+  AGENT
+  USER
+}
+
+enum UserStatus {
+  ACTIVE
+  BLOCKED
+}
+
+
+enum PropertyType {
+  APARTMENT
+  HOUSE
+  LAND
+}
+
+enum PropertyFor {
+  FOR_SALE
+  FOR_RENT
+  SOLD
+  RENTED
+}
+
+enum PropertyApprovalStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+

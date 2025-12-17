@@ -9,7 +9,47 @@
 * 🟢 You can import this file directly.
 */
 
+export const UserRole = {
+  SUPER_ADMIN: 'SUPER_ADMIN',
+  ADMIN: 'ADMIN',
+  AGENT: 'AGENT',
+  USER: 'USER'
+} as const
+
+export type UserRole = (typeof UserRole)[keyof typeof UserRole]
 
 
-// This file is empty because there are no enums in the schema.
-export {}
+export const UserStatus = {
+  ACTIVE: 'ACTIVE',
+  BLOCKED: 'BLOCKED'
+} as const
+
+export type UserStatus = (typeof UserStatus)[keyof typeof UserStatus]
+
+
+export const PropertyType = {
+  APARTMENT: 'APARTMENT',
+  HOUSE: 'HOUSE',
+  LAND: 'LAND'
+} as const
+
+export type PropertyType = (typeof PropertyType)[keyof typeof PropertyType]
+
+
+export const PropertyFor = {
+  FOR_SALE: 'FOR_SALE',
+  FOR_RENT: 'FOR_RENT',
+  SOLD: 'SOLD',
+  RENTED: 'RENTED'
+} as const
+
+export type PropertyFor = (typeof PropertyFor)[keyof typeof PropertyFor]
+
+
+export const PropertyApprovalStatus = {
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED'
+} as const
+
+export type PropertyApprovalStatus = (typeof PropertyApprovalStatus)[keyof typeof PropertyApprovalStatus]

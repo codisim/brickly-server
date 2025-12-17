@@ -9,6 +9,8 @@ import sendResponse from "../../shared/sendResponse";
 const Register = catchAsync(async (req: Request, res: Response) => {
     const result = await AuthService.Register(req.body)
 
+    console.log(result);
+
     sendResponse(res, {
         statusCode: status.OK,
         success: true,

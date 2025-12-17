@@ -11,9 +11,6 @@ importers:
       '@prisma/client':
         specifier: 6.19.0
         version: 6.19.0(prisma@6.19.0(typescript@5.9.3))(typescript@5.9.3)
-      bcryptjs:
-        specifier: ^3.0.3
-        version: 3.0.3
       cloudinary:
         specifier: ^2.8.0
         version: 2.8.0
@@ -32,12 +29,6 @@ importers:
       express:
         specifier: ^5.1.0
         version: 5.2.1
-      http-status:
-        specifier: ^2.1.0
-        version: 2.1.0
-      jsonwebtoken:
-        specifier: ^9.0.2
-        version: 9.0.3
       multer:
         specifier: ^2.0.2
         version: 2.0.2
@@ -78,6 +69,15 @@ importers:
       '@types/node':
         specifier: ^24.5.0
         version: 24.10.4
+      bcryptjs:
+        specifier: ^3.0.3
+        version: 3.0.3
+      http-status:
+        specifier: ^2.1.0
+        version: 2.1.0
+      jsonwebtoken:
+        specifier: ^9.0.2
+        version: 9.0.3
       prisma:
         specifier: 6.19.0
         version: 6.19.0(typescript@5.9.3)

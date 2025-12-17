@@ -1,5 +1,3 @@
-import { AppoinmentServices } from './app/modules/appoinment/appoinment.service';
-import { PaymentController } from './app/modules/payment/payment.controller';
 import express, { Application, Request, Response } from 'express';
 import globalErrorHandler from './app/middlewares/globalErrorHandler';
 import cookieParser from "cookie-parser"
@@ -13,22 +11,11 @@ const app: Application = express();
 
 
 // Stripe Webhook endpoint
-app.post(
-  "/webhook",
-  express.raw({ type: "application/json" }),
-  PaymentController.handleStripeWebhookEvent
-)
-
-
-// Schedule a cron job to run every minute
-cron.schedule('* * * * *', () => {
-  try {
-    AppoinmentServices.cancelUnpaidAppoinment();
-  } catch (error) {
-    console.error(error)
-  }
-
-});
+// app.post(
+//   "/webhook",
+//   express.raw({ type: "application/json" }),
+//   PaymentController.handleStripeWebhookEvent
+// )
 
 
 // CORS

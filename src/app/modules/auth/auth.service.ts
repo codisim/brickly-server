@@ -2,14 +2,12 @@ import { Secret } from 'jsonwebtoken';
 import httpStatus from 'http-status';
 import ApiError from '../../errors/ApiError';
 import bcrypt from 'bcryptjs';
-import config from "../../../config";
-import { TAuthInput } from "./auth.interface";
-import { Prisma } from '../../../generated/client';
 import { prisma } from '../../shared/prisma';
+import { TRegisterInput } from './auth.interface';
 
 const login = async (payload: { email: string, password: string }) => {
 
-    
+
 
     // const user = await prisma.user.findFirstOrThrow({
     //     where: {
@@ -92,13 +90,16 @@ const getMe = async (session: any) => {
 }
 
 
-const Register = async (payload: TAuthInput) => {
+const Register = async (payload: TRegisterInput) => {
 
     const hashedPassword = await bcrypt.hash(payload.password, 10);
-    
-    // const createUser = await prisma
 
-    return "createUser";
+    const result = await prisma.user.create({
+        data: payload
+    })
+
+    console.log(result);
+    return result;
 }
 
 
