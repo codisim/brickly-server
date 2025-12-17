@@ -1,97 +1,110 @@
-// import { jwtHelperes } from "../../helper/jwtHelper";
-import { prisma } from "../../shared/prisma"
 import { Secret } from 'jsonwebtoken';
 import httpStatus from 'http-status';
 import ApiError from '../../errors/ApiError';
 import bcrypt from 'bcryptjs';
 import config from "../../../config";
+import { TAuthInput } from "./auth.interface";
+import { Prisma } from '../../../generated/client';
+import { prisma } from '../../shared/prisma';
 
 const login = async (payload: { email: string, password: string }) => {
 
-    const user = await prisma.user.findFirstOrThrow({
-        where: {
-            email: payload.email,
-            // status: UserStatus.ACTIVE
-        }
-    })
+    
+
+    // const user = await prisma.user.findFirstOrThrow({
+    //     where: {
+    //         email: payload.email,
+    //         // status: UserStatus.ACTIVE
+    //     }
+    // })
 
 
-    const checkPassword = await bcrypt.compare(payload.password, user.password)
+    // const checkPassword = await bcrypt.compare(payload.password, user.password)
 
-    if (!checkPassword) {
-        throw new ApiError(httpStatus.BAD_REQUEST, "Password not matched")
-    }
+    // if (!checkPassword) {
+    //     throw new ApiError(httpStatus.BAD_REQUEST, "Password not matched")
+    // }
 
-    const accessToken = jwtHelperes.generateToken({ email: user.email, role: user.role }, config.access_token_secret as string, "1h")
+    // const accessToken = jwtHelperes.generateToken({ email: user.email, role: user.role }, config.access_token_secret as string, "1h")
 
-    const refreshToken = jwtHelperes.generateToken({ email: user.email, role: user.role }, config.refresh_token_secret as string, "90d")
+    // const refreshToken = jwtHelperes.generateToken({ email: user.email, role: user.role }, config.refresh_token_secret as string, "90d")
 
     return {
-        accessToken,
-        refreshToken,
-        needPasswordChange: user.needPasswordChange
+        // accessToken,
+        // refreshToken,
+        // needPasswordChange: user.needPasswordChange
     }
 }
 
 
-const refreshToken = async(token: string) => {
+// const refreshToken = async(token: string) => {
 
-    let decodedData;
-    try{
-        decodedData = jwtHelperes.verifyToken(token, config.refresh_token_secret as Secret)
-    }catch (err) {
-        throw new Error("You are not authorized!")
-    }
+//     let decodedData;
+//     try{
+//         decodedData = jwtHelperes.verifyToken(token, config.refresh_token_secret as Secret)
+//     }catch (err) {
+//         throw new Error("You are not authorized!")
+//     }
 
-    const userData = await prisma.user.findUniqueOrThrow({
-        where: {
-            email: decodedData.email,
-            status: UserStatus.ACTIVE
-        }
-    });
+//     const userData = await prisma.user.findUniqueOrThrow({
+//         where: {
+//             email: decodedData.email,
+//             status: UserStatus.ACTIVE
+//         }
+//     });
 
-    const accessToken = jwtHelperes.generateToken({ 
-        email: userData.email,
-        role: userData.role
-    },
-    config.access_token_secret as Secret,
-    config.jwt_expire_in as string
-);
+//     const accessToken = jwtHelperes.generateToken({ 
+//         email: userData.email,
+//         role: userData.role
+//     },
+//     config.access_token_secret as Secret,
+//     config.jwt_expire_in as string
+// );
 
-return {
-        accessToken,
-        needPasswordChange: userData.needPasswordChange
-    }   
-}
+// return {
+//         accessToken,
+//         needPasswordChange: userData.needPasswordChange
+//     }   
+// }
 
 
-const getMe = async(session: any) => {
+const getMe = async (session: any) => {
     const accessToken = session.accessToken;
-    const decodedData = jwtHelperes.verifyToken(accessToken, config.access_token_secret as Secret);
+    // const decodedData = jwtHelperes.verifyToken(accessToken, config.access_token_secret as Secret);
 
-    const userData = await prisma.user.findUniqueOrThrow({
-        where: {
-            email: decodedData.email,
-            status: UserStatus.ACTIVE
-        }
-    })
+    // const userData = await prisma.user.findUniqueOrThrow({
+    //     where: {
+    //         email: decodedData.email,
+    //         status: UserStatus.ACTIVE
+    //     }
+    // })
 
-    const {id, email, role, needPasswordChange, status} = userData;
+    // const {id, email, role, needPasswordChange, status} = userData;
 
-    return {
-        id,
-        email,
-        role,
-        needPasswordChange,
-        status
-    }
+    // return {
+    //     id,
+    //     email,
+    //     role,
+    //     needPasswordChange,
+    //     status
+    // }
 
 }
 
+
+const Register = async (payload: TAuthInput) => {
+
+    const hashedPassword = await bcrypt.hash(payload.password, 10);
+    
+    // const createUser = await prisma
+
+    return "createUser";
+}
 
 
 export const AuthService = {
+    Register,
     login,
-    refreshToken,
+    // refreshToken,
     getMe
 }
