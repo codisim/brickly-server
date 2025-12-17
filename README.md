@@ -1,4 +1,4 @@
-# 🩺 Telemedicine Backend
+# Real state Backend
 
 A complete backend for a modern real-state platform built with **TypeScript**, **Express.js**, **Prisma**, and **PostgreSQL**. 
 
