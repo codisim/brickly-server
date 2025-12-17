@@ -3,40 +3,36 @@ import httpStatus from 'http-status';
 import ApiError from '../../errors/ApiError';
 import bcrypt from 'bcryptjs';
 import { prisma } from '../../shared/prisma';
-import { TRegisterInput } from './auth.interface';
+import { TLoginInput, TRegisterInput } from './auth.interface';
 import { jwtHelperes } from '../../helper/jwtHelper';
 import config from '../../../config';
 import { UserStatus } from '../../../generated/enums';
 
-const login = async (payload: { email: string, password: string }) => {
+const login = async (payload: TLoginInput) => {
 
+    const user = await prisma.user.findFirstOrThrow({
+        where: {
+            email: payload.email,
+            status: UserStatus.ACTIVE
+        }
+    })
 
+    const checkPassword = await bcrypt.compare(payload.password, user.password)
 
-    // const user = await prisma.user.findFirstOrThrow({
-    //     where: {
-    //         email: payload.email,
-    //         // status: UserStatus.ACTIVE
-    //     }
-    // })
+    if (!checkPassword) {
+        throw new ApiError(httpStatus.BAD_REQUEST, "Password not matched")
+    }
 
+    const accessToken = jwtHelperes.generateToken({ email: user.email, role: user.role }, config.access_token_secret as string, "1h")
 
-    // const checkPassword = await bcrypt.compare(payload.password, user.password)
-
-    // if (!checkPassword) {
-    //     throw new ApiError(httpStatus.BAD_REQUEST, "Password not matched")
-    // }
-
-    // const accessToken = jwtHelperes.generateToken({ email: user.email, role: user.role }, config.access_token_secret as string, "1h")
-
-    // const refreshToken = jwtHelperes.generateToken({ email: user.email, role: user.role }, config.refresh_token_secret as string, "90d")
+    const refreshToken = jwtHelperes.generateToken({ email: user.email, role: user.role }, config.refresh_token_secret as string, "90d")
 
     return {
-        // accessToken,
-        // refreshToken,
-        // needPasswordChange: user.needPasswordChange
+        accessToken,
+        refreshToken,
+        needPasswordChange: user.needPasswordChange
     }
 }
-
 
 
 const refreshToken = async (token: string) => {
