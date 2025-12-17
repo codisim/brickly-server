@@ -97,7 +97,11 @@ const Register = async (payload: TRegisterInput) => {
     const hashedPassword = await bcrypt.hash(payload.password, 10);
 
     const result = await prisma.user.create({
-        data: payload
+        data: {
+            name: payload.name,
+            email: payload.email,
+            password: hashedPassword
+        }
     })
 
     console.log(result);
