@@ -26,21 +26,6 @@ const getAllFromDB = catchAsync(async(req: Request, res: Response) => {
 })
 
 
-const getMyProfile = catchAsync(async(req: Request & {user?: IJWTPayload}, res: Response) => {
-    
-    const user = req.user;
-    const result = await UserService.getMyProfile(user as IJWTPayload)
-
-    sendResponse(res, {
-        statusCode: status.OK,
-        success: true,
-        message: "My profile fetched successfully..!",
-        data: result
-    })
-})
-
-
-
 
 const changeProfileStatusOrRole = catchAsync(async(req: Request, res: Response) => {
     const {id} = req.params;
@@ -57,6 +42,5 @@ const changeProfileStatusOrRole = catchAsync(async(req: Request, res: Response) 
 
 export const UserController = {
     getAllFromDB,
-    getMyProfile,
     changeProfileStatusOrRole
 }

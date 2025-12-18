@@ -6,12 +6,6 @@ import { UserRole } from "../../../generated/enums";
 const router = express.Router()
 
 
-router.get(
-    "/me", 
-    auth(UserRole.SUPER_ADMIN, UserRole.ADMIN, UserRole.AGENT, UserRole.USER),    
-    UserController.getMyProfile
-)
-
 
 router.get(
     "/", 
