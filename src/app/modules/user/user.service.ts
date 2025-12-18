@@ -108,20 +108,20 @@ const getMyProfile = async (user: IJWTPayload) => {
 
 const changeProfileStatusOrRole = async (id: string, payload: { status: UserStatus, role: UserRole }) => {
 
-    // const userData = await prisma.user.findUniqueOrThrow({
-    //     where: {
-    //         id
-    //     }
-    // })
+    const userData = await prisma.user.findUniqueOrThrow({
+        where: {
+            id
+        }
+    })
 
-    // const updatedUserStatusOrRole = await prisma.user.update({
-    //     where: {
-    //         id
-    //     },
-    //     data: payload
-    // })
+    const updatedUserStatusOrRole = await prisma.user.update({
+        where: {
+            id
+        },
+        data: payload
+    })
 
-    // return updatedUserStatusOrRole
+    return updatedUserStatusOrRole
 }
 
 

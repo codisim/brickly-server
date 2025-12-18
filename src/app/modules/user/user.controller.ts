@@ -49,7 +49,7 @@ const changeProfileStatusOrRole = catchAsync(async(req: Request, res: Response) 
     sendResponse(res, {
         statusCode: status.OK,
         success: true,
-        message: "User profile updated successfully..!",
+        message: "User states or role updated successfully..!",
         data: result
     })
 })
