@@ -20,5 +20,10 @@ router.get(
     PropertyController.getSingleProperty
 )
 
+router.patch(
+    "/:id",
+    PropertyController.updateProperty
+)   
+
 
 export const propertyRoutes = router;

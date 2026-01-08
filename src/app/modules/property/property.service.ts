@@ -27,8 +27,20 @@ const getSingleProperty = async (propertyId: string): Promise<any | null> => {
 }
 
 
+const updateProperty = async (propertyId: string, payload: any): Promise<any> => {
+    const updatedProperty = await prisma.property.update({
+        where: {
+            id: propertyId
+        },
+        data: payload
+    });
+
+    return updatedProperty;
+}
+
 export const PropertyService = {
     createProperty,
     getAllProperties,
-    getSingleProperty
+    getSingleProperty,
+    updateProperty
 }
