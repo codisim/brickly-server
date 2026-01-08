@@ -8,9 +8,33 @@ const createReview = async (payload: any): Promise<any> => {
     })
 
     return result;
-}   
+}
+
+
+const getAllReviewsByProductId = async (productId: string): Promise<any[]> => {
+    const results = await prisma.review.findMany({
+        where: {
+            id: productId
+        }
+    });
+    return results;
+}
+
+
+const getAllReviewsByUserId = async (userId: string): Promise<any[]> => {
+    const results = await prisma.review.findMany({
+        where: {
+            userId: userId
+        }
+    });
+    return results;
+}
+
+
 
 
 export const ReviewService = {
-    createReview
+    createReview,
+    getAllReviewsByProductId,
+    getAllReviewsByUserId
 }
