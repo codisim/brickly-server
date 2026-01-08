@@ -32,9 +32,33 @@ const getAllReviewsByUserId = async (userId: string): Promise<any[]> => {
 
 
 
+const updateReview = async (reviewId: string, payload: any): Promise<any> => {
+    const result = await prisma.review.update({
+        where: {
+            id: reviewId
+        },
+        data: payload
+    })
+
+    return result;
+}
+
+const deleteReview = async (reviewId: string): Promise<any> => {
+    const result = await prisma.review.delete({
+        where: {
+            id: reviewId
+        }
+    })
+
+    return result;
+}
+
+
 
 export const ReviewService = {
     createReview,
     getAllReviewsByProductId,
-    getAllReviewsByUserId
+    getAllReviewsByUserId,
+    updateReview,
+    deleteReview
 }
