@@ -8,7 +8,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model User {
   id                 String     @id @default(uuid())
   name               String
@@ -27,33 +26,28 @@ model User {
   updatedAt DateTime @updatedAt
 }
 
-
 model Property {
-  id          String   @id @default(uuid())
-  title       String
-  description String
-  price       Float
-
-  images           String[]
-  thumbNailImage   String
-
-  type        PropertyType
-  propertyFor PropertyFor
-
-  bedrooms   Int
-  bathrooms  Int
-  squareFoot Int?
-  buildYear  String?
-
+  id              String       @id @default(uuid())
+  title           String
+  description     String
+  price           Float
+  images          String[]
+  thumbNailImage  String
+  type            PropertyType
+  propertyFor     PropertyFor
+  bedrooms        Int
+  bathrooms       Int
+  squareFoot      Int?
+  buildYear       String?
   city            String
   country         String
   propertyAddress String
 
-  isFeatured Boolean @default(false)
+  isFeatured Boolean                @default(false)
   status     PropertyApprovalStatus @default(PENDING)
 
   userId String
-  user   User @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id])
 
   reviews Review[]
 
@@ -61,14 +55,13 @@ model Property {
   updatedAt DateTime @updatedAt
 }
 
-
 model Review {
-  id         String  @id @default(uuid())
-  rating     Int?
-  comment    String
+  id      String @id @default(uuid())
+  rating  Int?
+  comment String
 
-  userId     String
-  user       User    @relation(fields: [userId], references: [id])
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
 
   propertyId String
   property   Property @relation(fields: [propertyId], references: [id])
@@ -76,8 +69,6 @@ model Review {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
-
-
 
 enum UserRole {
   SUPER_ADMIN
@@ -90,7 +81,6 @@ enum UserStatus {
   ACTIVE
   BLOCKED
 }
-
 
 enum PropertyType {
   APARTMENT
@@ -110,5 +100,3 @@ enum PropertyApprovalStatus {
   APPROVED
   REJECTED
 }
-
-
